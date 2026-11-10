@@ -1,0 +1,24 @@
+// Top-level build file — mirrors the Widgets project setup (offline local repo).
+buildscript {
+    repositories {
+        maven { url 'file:///home/hatch/workspace/tools/localrepo' }
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:9.4.1'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.20'
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'file:///home/hatch/workspace/tools/localrepo' }
+        google()
+        mavenCentral()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

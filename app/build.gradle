@@ -1,0 +1,41 @@
+apply plugin: 'com.android.application'
+// NOTE: AGP 9 has built-in Kotlin support; do not apply the kotlin-android plugin.
+
+apply from: '../signing.gradle'
+
+android {
+    namespace 'app.musemovelog'
+    buildToolsVersion = '37.0.0'
+    compileSdk = 37
+    compileSdkMinor = 2
+    defaultConfig {
+        applicationId 'app.musemovelog'
+        minSdk 31
+        targetSdk 36
+        versionCode 15
+        versionName '1.14'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+// Health Connect client for importing past steps/distance (fetched into the
+// offline local repo). Everything else is framework APIs only.
+dependencies {
+    implementation 'androidx.health.connect:connect-client:1.1.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0'
+    // connect-client alone resolves androidx.activity 1.2.0, whose
+    // RequestMultiplePermissions contract emits an internal androidx action
+    // that no system activity handles (found via device debug log on
+    // 2026-11-10). Pin a current version so the contract builds the real
+    // system permission intent.
+    implementation 'androidx.activity:activity:1.9.3'
+}
